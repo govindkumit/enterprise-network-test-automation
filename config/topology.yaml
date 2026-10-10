@@ -1,0 +1,68 @@
+devices:
+  leaf1:
+    hostname: LEAF-01
+    role: leaf
+    vlans: [10, 20]
+    trunk_allowed_vlans: [10, 20]
+    lag:
+      id: 1
+      members: [Ethernet1, Ethernet2]
+      status: up
+    vxlan:
+      enabled: true
+      vni: 10100
+      peer: 192.0.2.12
+      peer_state: up
+    evpn:
+      enabled: true
+      routes: 5
+  leaf2:
+    hostname: LEAF-02
+    role: leaf
+    vlans: [10, 20]
+    trunk_allowed_vlans: [10, 20]
+    lag:
+      id: 1
+      members: [Ethernet1, Ethernet2]
+      status: up
+    vxlan:
+      enabled: true
+      vni: 10100
+      peer: 192.0.2.11
+      peer_state: up
+    evpn:
+      enabled: true
+      routes: 5
+  router1:
+    hostname: ROUTER-01
+    role: router
+    ospf:
+      enabled: true
+      neighbors:
+        - address: 10.0.12.2
+          state: FULL
+    bgp:
+      enabled: true
+      neighbors:
+        - address: 192.0.2.2
+          state: ESTABLISHED
+    routes:
+      - 10.10.10.0/24
+      - 10.20.20.0/24
+      - 172.16.0.0/16
+  router2:
+    hostname: ROUTER-02
+    role: router
+    ospf:
+      enabled: true
+      neighbors:
+        - address: 10.0.12.1
+          state: FULL
+    bgp:
+      enabled: true
+      neighbors:
+        - address: 192.0.2.1
+          state: ESTABLISHED
+    routes:
+      - 10.10.10.0/24
+      - 10.20.20.0/24
