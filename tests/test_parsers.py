@@ -38,3 +38,11 @@ def test_parse_routes_output():
 def test_parse_vxlan_and_evpn_output():
     assert parse_vxlan_peers(DEFAULT_OUTPUTS["show nve peers"])["192.0.2.12"] == "up"
     assert parse_evpn_prefix_count(DEFAULT_OUTPUTS["show bgp l2vpn evpn summary"]) == 5
+
+
+def test_netmiko_adapter_rejects_configuration_commands():
+    from network.netmiko_device import NetmikoDevice
+    device = NetmikoDevice("example.invalid", "user", "password")
+    import pytest
+    with pytest.raises(ValueError, match="read-only allowlist"):
+        device.execute("configure terminal")

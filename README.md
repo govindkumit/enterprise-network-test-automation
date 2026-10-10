@@ -131,3 +131,47 @@ Use “portfolio framework / simulated validation” unless and until you integr
 ## License
 
 Add a license if you want others to reuse the project; choose one based on your intended sharing terms.
+
+
+## Real-device smoke test (opt-in)
+
+The Netmiko adapter can run a read-only `show version` check against one lab device. Use a device you are authorized to access. Do not commit credentials to YAML, source code, GitHub, or logs.
+
+PowerShell (replace example values with your approved lab details):
+
+```powershell
+$env:NETWORK_LAB_HOST="192.0.2.10"
+$env:NETWORK_LAB_USERNAME="lab-user"
+$env:NETWORK_LAB_PASSWORD="use-a-lab-secret"
+$env:NETWORK_LAB_DEVICE_TYPE="cisco_ios"
+$env:NETWORK_LAB_PORT="22"
+python -m pytest tests/integration/test_real_device.py -v
+```
+
+Linux/macOS:
+
+```bash
+export NETWORK_LAB_HOST="192.0.2.10"
+export NETWORK_LAB_USERNAME="lab-user"
+export NETWORK_LAB_PASSWORD="use-a-lab-secret"
+export NETWORK_LAB_DEVICE_TYPE="cisco_ios"
+export NETWORK_LAB_PORT="22"
+python -m pytest tests/integration/test_real_device.py -v
+```
+
+If the required environment variables are absent, the integration test is skipped. The adapter permits only commands listed in `network/netmiko_device.py` and reviewed as read-only.
+
+## Convergence timing
+
+`network/convergence.py` exposes `wait_for_convergence(check, timeout_seconds, poll_interval_seconds)`. Pass a read-only state check (such as whether an OSPF neighbor is `FULL`) to measure elapsed time until the condition becomes true. Current tests validate the polling utility; a meaningful protocol convergence measurement requires a reachable lab device and a defined event/observation procedure.
+
+## Endpoint traffic checks
+
+`network/traffic.py` provides `ping_host(host, count=4)` for IP reachability and `run_iperf3_client(server, duration_seconds=5)` for optional throughput testing when `iperf3` is installed and a test server is running. Run traffic tests only against systems and networks you are authorized to test. Ping reachability is not a substitute for application-level or performance acceptance criteria.
+
+## Integration boundaries
+
+- Real-device access is read-only; automated configuration changes and physical failover are not enabled. The failover selection tests exercise simulated path state, not a live routing event.
+- Convergence timing measures a supplied condition; it does not itself trigger a routing event.
+- Traffic tests require a reachable endpoint; iperf3 requires a separately running server.
+- Device output formats vary by platform and software release. Validate parsers against sanitized output from the target lab platform before operational use.

@@ -1,0 +1,6 @@
+# Example only: do not store credentials or secrets in this file.
+lab_device:
+  device_type: cisco_ios
+  port: 22
+  connection_timeout_seconds: 10
+  # Credentials are supplied through environment variables; see README.md.
