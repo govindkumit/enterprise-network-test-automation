@@ -114,7 +114,7 @@ The tests alter in-memory simulated state to emulate a protocol failure, assert 
 
 Potential extensions include Cisco pyATS/Genie, Netmiko, RESTCONF/NETCONF, Robot Framework, traffic generation, convergence timing, packet loss/latency thresholds, IPv6, STP, and parallel test execution. Those integrations are not included/enabled by default.
 
-## Suggested recruiter demo
+## Framework Demonstration
 
 1. Run all tests and open `reports/pytest-report.html`.
 2. Show VLAN/LAG, OSPF/BGP, and VXLAN/EVPN suites.
@@ -122,7 +122,7 @@ Potential extensions include Cisco pyATS/Genie, Netmiko, RESTCONF/NETCONF, Robot
 4. Show recovery after restoring simulated state.
 5. Show the GitHub Actions run and download the report artifact.
 
-## Resume-ready description
+## Project Overview
 
 **Enterprise Switching & Routing Validation Automation Framework** — Built a Python/Pytest portfolio framework to demonstrate automated L2/L3 and VXLAN/EVPN validation, including VLAN/trunk/LAG checks, OSPF/BGP state checks, route validation, negative/fault-recovery scenarios, reusable parsers and validators, HTML reporting, Docker, and GitHub Actions CI.
 
